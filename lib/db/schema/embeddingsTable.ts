@@ -1,6 +1,6 @@
 import { nanoid } from "@/lib/utils";
 import { index, pgTable, text, varchar, vector } from "drizzle-orm/pg-core";
-import { resourcesTable } from "./resourcesTable";
+import { resourcesTable } from "@/lib/db/schema/resourcesTable";
 
 export const embeddingsTable = pgTable(
   "embeddings",
