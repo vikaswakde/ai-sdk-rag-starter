@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { nanoid } from "@/lib/utils";
 
-export const resources = pgTable("resources", {
+export const resourcesTable = pgTable("resources", {
   id: varchar("id", { length: 191 })
     .primaryKey()
     .$defaultFn(() => nanoid()),
@@ -20,7 +20,7 @@ export const resources = pgTable("resources", {
 });
 
 // Schema for resources - used to validate API requests
-export const insertResourceSchema = createSelectSchema(resources)
+export const insertResourceSchema = createSelectSchema(resourcesTable)
   .extend({})
   .omit({
     id: true,
