@@ -4,11 +4,15 @@ import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { nanoid } from "@/lib/utils";
+import { essaysTable } from "./essaysTable";
 
 export const resourcesTable = pgTable("resources", {
   id: varchar("id", { length: 191 })
     .primaryKey()
     .$defaultFn(() => nanoid()),
+  essayId: varchar("essay_id", { length: 191 })
+    .references(() => essaysTable.id, { onDelete: "cascade" })
+    .notNull(),
   content: text("content").notNull(),
 
   createdAt: timestamp("created_at")
