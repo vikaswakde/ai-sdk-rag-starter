@@ -7,7 +7,8 @@ import { db } from "../db";
 const embeddingModel = google.textEmbeddingModel("text-embedding-004");
 
 // break the source material into small chunks
-/* 
+// TODO: use more advanced chunking method
+
 const generateChunks = (input: string): string[] => {
   return (
     input
@@ -17,43 +18,6 @@ const generateChunks = (input: string): string[] => {
       // me applyig my big brain lol
       .map((i) => i.trim())
   );
-};
-*/
-
-// advanced chunking method (advised by claude 3.7)
-const generateChunks = (
-  input: string,
-  chunkSize = 768,
-  overlapSize = 150
-): string[] => {
-  const paragraphs = input.split(/\n\s*\n/).filter((p) => p.trim());
-  const chunks: string[] = [];
-
-  paragraphs.forEach((paragraph) => {
-    if (paragraph.length <= chunkSize) {
-      chunks.push(paragraph.trim());
-      return;
-    }
-
-    let startIndex = 0;
-    while (startIndex < paragraph.length) {
-      let endIndex = Math.min(startIndex + chunkSize, paragraph.length);
-
-      if (endIndex < paragraph.length) {
-        const sentenceEnd = paragraph
-          .substring(startIndex, endIndex + 50)
-          .search(/[.!?]\s/);
-        if (sentenceEnd > 0) {
-          endIndex = startIndex + sentenceEnd + 1;
-        }
-      }
-
-      chunks.push(paragraph.substring(startIndex, endIndex).trim());
-      startIndex = endIndex - overlapSize;
-    }
-  });
-
-  return chunks.filter((chunk) => chunk.length > 0);
 };
 
 // generate embeddings
