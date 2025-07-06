@@ -34,6 +34,7 @@ export const generateEmbeddings = async (
 };
 
 // generate embedding for question asked by user
+// TODO: can this be a security loophole ?
 export const generateQuestionEmbedding = async (
   value: string
 ): Promise<number[]> => {
