@@ -3,6 +3,8 @@
 import { useChat } from "@ai-sdk/react";
 import { useEffect, useState } from "react";
 import { getEssays } from "@/lib/actions/essays";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Essay = {
   id: string;
@@ -66,15 +68,19 @@ export default function Chat() {
                 </div>
               )}
               <div
-                className={`p-4 rounded-lg max-w-lg shadow-md ${
+                className={`prose p-4 rounded-lg max-w-lg shadow-md ${
                   m.role === "user"
-                    ? "bg-blue-500 text-white"
+                    ? "bg-blue-500 text-white prose-invert"
                     : "bg-white text-gray-900"
                 }`}
               >
                 {m.parts.map((part, i) => {
                   if (part.type === "text") {
-                    return <p key={i}>{part.text}</p>;
+                    return (
+                      <ReactMarkdown key={i} remarkPlugins={[remarkGfm]}>
+                        {part.text}
+                      </ReactMarkdown>
+                    );
                   }
                   if (part.type === "tool-invocation") {
                     const { toolName, args } = part.toolInvocation;
