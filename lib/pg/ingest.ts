@@ -11,7 +11,7 @@ import { eq } from "drizzle-orm";
 // This script will be responsible for scraping, chunking, embedding, and storing Paul Graham's essays.
 // We will build it step-by-step.
 
-const ESSAY_URL = "http://www.paulgraham.com/google.html";
+const DEFAULT_ESSAY_URL = "https://www.paulgraham.com/start.html";
 const CHUNK_SIZE = 1100; // Max characters per chunk
 
 function chunkText(text: string): string[] {
@@ -141,6 +141,11 @@ async function ingestEssay(url: string) {
 // --- Main execution ---
 
 (async () => {
-  await ingestEssay(ESSAY_URL);
+  const urlFromArgs = process.argv[2];
+  const essayUrl = urlFromArgs || DEFAULT_ESSAY_URL;
+
+  console.log(`Attempting to ingest essay from: ${essayUrl}`);
+
+  await ingestEssay(essayUrl);
   process.exit(0);
 })();

@@ -16,7 +16,7 @@ const generateChunks = (input: string): string[] => {
       .trim()
       .split(".")
       .filter((i) => i !== "")
-      // me applyig my big brain lol
+      // me applying my big brain lol
       .map((i) => i.trim())
   );
 };
@@ -73,7 +73,7 @@ export const findRelevantContent = async (
         resourcesTable,
         eq(embeddingsTable.resourceId, resourcesTable.id)
       )
-      .where(and(gt(similarity, 0.6), eq(resourcesTable.essayId, essayId)))
+      .where(and(gt(similarity, 0.55), eq(resourcesTable.essayId, essayId)))
       .orderBy((t) => desc(t.similarity))
       .limit(4);
     return similarGuides;
